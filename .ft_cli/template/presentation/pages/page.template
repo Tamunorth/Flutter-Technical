@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import '{{controllerNameFile.snakeCase}}.dart';
+
+class {{pageNameClass.pascalCase}} extends StatefulWidget {
+  const {{pageNameClass.pascalCase}}({super.key});
+
+
+  @override
+  {{pageNameClass.pascalCase}}State createState() => {{pageNameClass.pascalCase}}State();
+}
+
+class {{name.pascalCase}}PageState extends State<{{pageNameClass.pascalCase}}> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState> dialogKey = GlobalKey<FormState>();
+
+    @override
+    void dispose() {
+      // TODO: implement dispose
+      super.dispose();
+      dialogKey.currentState?.dispose();
+    }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      appBar:  AppBar(),
+      body:  Container(),
+    );
+  }
+}
+  
