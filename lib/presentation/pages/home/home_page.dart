@@ -3,6 +3,7 @@ import 'package:flutter_technical_assessment/domain/services/coin_imp_service.da
 import 'package:flutter_technical_assessment/domain/services/network/network_imp_service.dart';
 import 'package:flutter_technical_assessment/pallets.dart';
 import 'package:flutter_technical_assessment/presentation/pages/coin_address/coin_address_page.dart';
+import 'package:flutter_technical_assessment/presentation/pages/history/history_page.dart';
 import 'package:flutter_technical_assessment/presentation/widgets/sized_box.dart';
 import 'package:flutter_technical_assessment/presentation/widgets/text_view.dart';
 
@@ -176,11 +177,29 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
               40.verticalSpace,
-              TextView(
-                color: Colors.black,
-                text: 'Available Currencies',
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextView(
+                    color: Colors.black,
+                    text: 'Available Currencies',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  TextView(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => HistoryPage(),
+                        ),
+                      );
+                    },
+                    color: Colors.blue,
+                    text: 'See History',
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ],
               ),
               20.verticalSpace,
               ValueListenableBuilder(
@@ -252,14 +271,6 @@ class HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 ),
-                                if (value)
-                                  const SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: Center(
-                                          child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      )))
                               ],
                             ),
                           ),
@@ -329,14 +340,6 @@ class HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 ),
-                                if (value)
-                                  const SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: Center(
-                                          child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ))),
                               ],
                             ),
                           ),
@@ -406,18 +409,19 @@ class HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 ),
-                                if (value)
-                                  const SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: Center(
-                                          child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ))),
                               ],
                             ),
                           ),
                         ),
+                        20.verticalSpace,
+                        if (value)
+                          const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ))),
                       ],
                     );
                   }),

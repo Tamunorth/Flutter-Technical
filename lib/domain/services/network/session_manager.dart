@@ -31,10 +31,10 @@ class SessionManager {
   static const String IS_CONTACT_PERMITTED = 'permit_contact';
   static const String KEY_USER_EMAIL = 'logged_in_user_email';
 
-  Map get usersData =>
+  Map<String, dynamic> get addressData =>
       json.decode(sharedPreferences!.getString(KEY_USERS_DATA) ?? '');
 
-  set usersData(Map map) =>
+  set addressData(Map<String, dynamic> map) =>
       sharedPreferences!.setString(KEY_USERS_DATA, json.encode(map));
 
   bool doesUserDataExists() {
