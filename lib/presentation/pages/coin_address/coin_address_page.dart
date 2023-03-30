@@ -2,6 +2,7 @@ import 'package:custom_qr_generator/custom_qr_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_technical_assessment/pallets.dart';
+import 'package:flutter_technical_assessment/presentation/pages/balance/balance_page.dart';
 import 'package:flutter_technical_assessment/presentation/widgets/sized_box.dart';
 import 'package:flutter_technical_assessment/presentation/widgets/text_view.dart';
 
@@ -103,34 +104,69 @@ class CoinAddressPageState extends State<CoinAddressPage> {
                 ),
               ),
               20.verticalSpace,
-              GestureDetector(
-                onTap: () {
-                  Clipboard.setData(ClipboardData(text: widget.address))
-                      .then((value) {
-                    return ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Address Copied to clipboard'),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: widget.address))
+                            .then((value) {
+                          return ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Address Copied to clipboard'),
+                            ),
+                          );
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                          border:
+                              Border.all(color: Pallets.blueColor, width: 1),
+                        ),
+                        child: Center(
+                          child: TextView(
+                            color: Pallets.blueColor,
+                            text: 'Copy Address',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
-                    );
-                  });
-                },
-                child: Container(
-                  width: 200,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Pallets.blueColor, width: 1),
-                  ),
-                  child: Center(
-                    child: TextView(
-                      color: Pallets.blueColor,
-                      text: 'Copy Address',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
+                  24.horizontalSpace,
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => BalancePage(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                          border:
+                              Border.all(color: Pallets.blueColor, width: 1),
+                        ),
+                        child: Center(
+                          child: TextView(
+                            color: Pallets.blueColor,
+                            text: 'See Balance',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               30.verticalSpace,
             ],

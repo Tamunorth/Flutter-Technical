@@ -103,115 +103,31 @@ class HomePageState extends State<HomePage> {
                   children: [
                     TextView(
                       color: Colors.white,
-                      text: 'Portfolio',
-                      fontSize: 20,
+                      text: 'Welcome',
+                      fontSize: 24,
                       fontWeight: FontWeight.w700,
                     ),
-                    21.verticalSpace,
+                    10.verticalSpace,
                     TextView(
+                      onTap: () {
+                        SessionManager.instance.logOut();
+                      },
                       color: Colors.white,
-                      text: 'Holding value',
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
+                      text: 'Make your first Investment today',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
                     ),
-                    TextView(
-                      color: Colors.white,
-                      text: '₹0.00000',
-                      fontSize: 28,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    21.verticalSpace,
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextView(
-                              color: Colors.white,
-                              text: 'Ledger Balance',
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            TextView(
-                              color: Colors.white,
-                              text: '₹0.00000',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ],
-                        ),
-                        21.horizontalSpace,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextView(
-                              color: Colors.white,
-                              text: 'Available Balance',
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            TextView(
-                              color: Colors.white,
-                              text: '₹0.00000',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    10.verticalSpace,
                   ],
                 ),
               ),
-              12.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Pallets.blueColor,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      padding: const EdgeInsets.all(12),
-                      child: Center(
-                        child: TextView(
-                          color: Colors.white,
-                          text: 'Deposit INR',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  16.horizontalSpace,
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: Pallets.blueColor, width: 1),
-                      ),
-                      child: Center(
-                        child: TextView(
-                          color: Pallets.blueColor,
-                          text: 'Withdraw INR',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              40.verticalSpace,
+              24.verticalSpace,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextView(
                     color: Colors.black,
-                    text: 'Available Currencies',
+                    text: 'Available Coins',
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),

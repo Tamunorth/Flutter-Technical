@@ -43,7 +43,9 @@ class HistoryPageState extends State<HistoryPage> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Pallets.background,
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Pallets.blueColor,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
