@@ -34,7 +34,7 @@ class SessionManager {
   Map<String, dynamic> get addressData =>
       json.decode(sharedPreferences!.getString(KEY_USERS_DATA) ?? '');
 
-  set addressData(Map<String, dynamic> map) =>
+  set addressData(Map map) =>
       sharedPreferences!.setString(KEY_USERS_DATA, json.encode(map));
 
   bool doesUserDataExists() {

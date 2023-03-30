@@ -31,9 +31,9 @@ class HistoryPageState extends State<HistoryPage> {
     // TODO: implement initState
     super.initState();
 
-    dataList = SessionManager.instance.doesUserDataExists()
-        ? AddressMainData.fromMap(SessionManager.instance.addressData).data
-        : AddressMainData(data: []).data;
+    dataList = (SessionManager.instance.doesUserDataExists()
+        ? AddressMainData.fromJson(SessionManager.instance.addressData).data
+        : AddressMainData(data: []).data)!;
   }
 
   final ValueNotifier isLoading = ValueNotifier(false);
@@ -47,45 +47,47 @@ class HistoryPageState extends State<HistoryPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 40.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextView(
-                    color: Colors.black,
-                    text: 'Created Addresses',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ],
-              ),
-              20.verticalSpace,
-              ValueListenableBuilder(
-                  valueListenable: isLoading,
-                  builder: (context, value, child) {
-                    return Column(
-                      children: [
-                        ...List.generate(
-                            dataList.length,
-                            (index) => Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 16.0),
-                                  child: InkWell(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 40.verticalSpace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextView(
+                      color: Colors.black,
+                      text: 'Created Addresses',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ],
+                ),
+                20.verticalSpace,
+                ValueListenableBuilder(
+                    valueListenable: isLoading,
+                    builder: (context, value, child) {
+                      return Column(
+                        children: [
+                          ...List.generate(
+                              dataList.length,
+                              (index) => GestureDetector(
                                     onTap: () async {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) => CoinAddressPage(
-                                            address: dataList[index].address,
-                                            currencyLink:
-                                                dataList[index].addressCurrency,
+                                            address:
+                                                dataList[index].address ?? '',
+                                            currencyLink: dataList[index]
+                                                    .addressCurrency ??
+                                                '',
                                           ),
                                         ),
                                       );
                                     },
                                     child: Container(
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 12),
                                       padding: const EdgeInsets.all(12),
                                       decoration: BoxDecoration(
                                           color: Colors.white,
@@ -104,55 +106,46 @@ class HistoryPageState extends State<HistoryPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Image.network(
-                                                dataList[index].addressCurrency,
-                                                height: 40,
-                                                width: 40,
-                                              ),
-                                              10.horizontalSpace,
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  // TextView(
-                                                  //   color: Colors.black,
-                                                  //   text: 'Ethereum',
-                                                  //   fontSize: 14,
-                                                  //   fontWeight: FontWeight.w600,
-                                                  // ),
-                                                  TextView(
-                                                    color: Pallets.greyColor,
-                                                    text:
-                                                        dataList[index].address,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                          Image.network(
+                                            dataList[index].addressCurrency ??
+                                                '',
+                                            height: 40,
+                                            width: 40,
                                           ),
-                                          if (value)
-                                            const SizedBox(
-                                                height: 20,
-                                                width: 20,
-                                                child: Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                )))
+                                          10.horizontalSpace,
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                // TextView(
+                                                //   color: Colors.black,
+                                                //   text: 'Ethereum',
+                                                //   fontSize: 14,
+                                                //   fontWeight: FontWeight.w600,
+                                                // ),
+                                                TextView(
+                                                  color: Pallets.greyColor,
+                                                  text:
+                                                      dataList[index].address ??
+                                                          '',
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                  ),
-                                )),
+                                  )),
 
-                        // 16.verticalSpace,
-                      ],
-                    );
-                  }),
-            ],
+                          // 16.verticalSpace,
+                        ],
+                      );
+                    }),
+              ],
+            ),
           ),
         ),
       ),

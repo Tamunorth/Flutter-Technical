@@ -1,8 +1,6 @@
 import 'package:custom_qr_generator/custom_qr_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_technical_assessment/domain/model/address_data.dart';
-import 'package:flutter_technical_assessment/domain/services/network/session_manager.dart';
 import 'package:flutter_technical_assessment/pallets.dart';
 import 'package:flutter_technical_assessment/presentation/widgets/sized_box.dart';
 import 'package:flutter_technical_assessment/presentation/widgets/text_view.dart';
@@ -34,20 +32,6 @@ class CoinAddressPageState extends State<CoinAddressPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    encodedd();
-  }
-
-  encodedd() {
-    Future.delayed(Duration.zero, () {
-      AddressMainData currentList = SessionManager.instance.doesUserDataExists()
-          ? AddressMainData.fromMap(SessionManager.instance.addressData)
-          : AddressMainData(data: []);
-
-      currentList.data.add(AddressData(
-          addressCurrency: widget.currencyLink, address: widget.address));
-      SessionManager.instance.addressData = currentList.toMap();
-    });
   }
 
   @override

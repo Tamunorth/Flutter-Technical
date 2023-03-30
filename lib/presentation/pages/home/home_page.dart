@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_technical_assessment/domain/model/address_data.dart';
 import 'package:flutter_technical_assessment/domain/services/coin_imp_service.dart';
 import 'package:flutter_technical_assessment/domain/services/network/network_imp_service.dart';
+import 'package:flutter_technical_assessment/domain/services/network/session_manager.dart';
 import 'package:flutter_technical_assessment/pallets.dart';
 import 'package:flutter_technical_assessment/presentation/pages/coin_address/coin_address_page.dart';
 import 'package:flutter_technical_assessment/presentation/pages/history/history_page.dart';
@@ -33,24 +35,51 @@ class HomePageState extends State<HomePage> {
 
   final ValueNotifier isLoading = ValueNotifier(false);
 
-  Future<String> createWalletAddress(String type) async {
-    isLoading.value = true;
+  Future<String> createWalletAddress(String type, String currencyLink) async {
+    AddressMainData currentList = SessionManager.instance.doesUserDataExists()
+        ? AddressMainData.fromJson(SessionManager.instance.addressData)
+        : AddressMainData(data: []);
 
-    try {
-      final res = await CoinImpService().createWallet(type);
+    final currecyList = currentList.data
+        ?.where((e) => e.addressCurrency == currencyLink)
+        .toList();
 
-      final walletAddress = await CoinImpService().genAddress(type, res);
+    if (currecyList?.isEmpty ?? false) {
+      try {
+        isLoading.value = true;
 
-      logger.e(walletAddress.address);
+        final res = await CoinImpService().createWallet(type);
 
-      return walletAddress.address ?? '';
-    } catch (e) {
-      logger.e(e);
-    } finally {
-      isLoading.value = false;
+        final walletAddress = await CoinImpService().genAddress(type, res);
+
+        logger.e(walletAddress.address);
+
+        Future.delayed(Duration.zero, () {
+          currentList.data?.add(AddressData(
+              addressCurrency: currencyLink, address: walletAddress.address));
+          SessionManager.instance.addressData = currentList.toJson();
+        });
+
+        goToNext(walletAddress.address ?? '', currencyLink);
+
+        return walletAddress.address ?? '';
+      } catch (e) {
+        logger.e(e);
+      } finally {
+        isLoading.value = false;
+      }
+    } else {
+      goToNext(
+          currecyList?.first.address ?? '', currecyList?.first.addressCurrency);
     }
 
     return '';
+  }
+
+  goToNext(String address, currencyLink) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            CoinAddressPage(address: address, currencyLink: currencyLink)));
   }
 
   @override
@@ -195,7 +224,7 @@ class HomePageState extends State<HomePage> {
                       );
                     },
                     color: Colors.blue,
-                    text: 'See History',
+                    text: 'See Addresses',
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
                   ),
@@ -209,23 +238,10 @@ class HomePageState extends State<HomePage> {
                       children: [
                         InkWell(
                           onTap: () async {
-                            final retValue =
-                                await createWalletAddress('ethereum');
-
-                            if (retValue != null) {
-                              Future.delayed(
-                                Duration.zero,
-                                () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => CoinAddressPage(
-                                      address: retValue,
-                                      currencyLink:
-                                          'https://ethereum.org/static/a183661dd70e0e5c70689a0ec95ef0ba/81d9f/eth-diamond-purple.webp',
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
+                            final retValue = await createWalletAddress(
+                              'ethereum',
+                              'https://ethereum.org/static/a183661dd70e0e5c70689a0ec95ef0ba/81d9f/eth-diamond-purple.webp',
+                            );
                           },
                           child: Container(
                             padding: const EdgeInsets.all(12),
@@ -278,23 +294,10 @@ class HomePageState extends State<HomePage> {
                         16.verticalSpace,
                         InkWell(
                           onTap: () async {
-                            final retValue =
-                                await createWalletAddress('polygon');
-
-                            if (retValue != null) {
-                              Future.delayed(
-                                Duration.zero,
-                                () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => CoinAddressPage(
-                                      address: retValue,
-                                      currencyLink:
-                                          "https://wiki.polygon.technology/img/polygon-logo.png",
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
+                            final retValue = await createWalletAddress(
+                              'polygon',
+                              "https://wiki.polygon.technology/img/polygon-logo.png",
+                            );
                           },
                           child: Container(
                             padding: const EdgeInsets.all(12),
@@ -347,23 +350,10 @@ class HomePageState extends State<HomePage> {
                         16.verticalSpace,
                         InkWell(
                           onTap: () async {
-                            final retValue =
-                                await createWalletAddress('litecoin');
-
-                            if (retValue != null) {
-                              Future.delayed(
-                                Duration.zero,
-                                () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => CoinAddressPage(
-                                      address: retValue,
-                                      currencyLink:
-                                          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Litecoin_Logo.jpg/1200px-Litecoin_Logo.jpg?20190210221207",
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
+                            final retValue = await createWalletAddress(
+                              'litecoin',
+                              "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Litecoin_Logo.jpg/1200px-Litecoin_Logo.jpg?20190210221207",
+                            );
                           },
                           child: Container(
                             padding: const EdgeInsets.all(12),

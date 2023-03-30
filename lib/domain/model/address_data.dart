@@ -1,38 +1,67 @@
-class AddressData {
-  final String address;
-  final String addressCurrency;
+/// data : [{"address":"this.address","addressCurrency":""}]
 
-  AddressData({required this.address, required this.addressCurrency});
+class AddressMainData {
+  AddressMainData({
+    this.data,
+  });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'address': this.address,
-      'addressCurrency': this.addressCurrency,
-    };
+  AddressMainData.fromJson(dynamic json) {
+    if (json['data'] != null) {
+      data = [];
+      json['data'].forEach((v) {
+        data?.add(AddressData.fromJson(v));
+      });
+    }
   }
 
-  factory AddressData.fromMap(Map<String, dynamic> map) {
-    return AddressData(
-      address: map['address'] as String,
-      addressCurrency: map['addressCurrency'] as String,
-    );
+  List<AddressData>? data;
+
+  AddressMainData copyWith({
+    List<AddressData>? data,
+  }) =>
+      AddressMainData(
+        data: data ?? this.data,
+      );
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    if (data != null) {
+      map['data'] = data?.map((v) => v.toJson()).toList();
+    }
+    return map;
   }
 }
 
-class AddressMainData {
-  final List<AddressData> data;
+/// address : "this.address"
+/// addressCurrency : ""
 
-  AddressMainData({required this.data});
+class AddressData {
+  AddressData({
+    this.address,
+    this.addressCurrency,
+  });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'data': this.data,
-    };
+  AddressData.fromJson(dynamic json) {
+    address = json['address'];
+    addressCurrency = json['addressCurrency'];
   }
 
-  factory AddressMainData.fromMap(Map<String, dynamic> map) {
-    return AddressMainData(
-      data: map['data'] as List<AddressData>,
-    );
+  String? address;
+  String? addressCurrency;
+
+  AddressData copyWith({
+    String? address,
+    String? addressCurrency,
+  }) =>
+      AddressData(
+        address: address ?? this.address,
+        addressCurrency: addressCurrency ?? this.addressCurrency,
+      );
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['address'] = address;
+    map['addressCurrency'] = addressCurrency;
+    return map;
   }
 }
